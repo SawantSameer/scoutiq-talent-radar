@@ -1,7 +1,0 @@
-Your search state is clearly successfully filtering the list down to zero when there are no matches.
-
-However, looking at the UI, this is exactly the kind of "blank screen" the assignment is warning against. While you do have the "0 athletes found" text at the top, the entire rest of the screen is just a dark void.
-
-To secure the maximum points for "UI / UX polish", you need to fill that empty space with an actual visual component so it feels like a deliberate design choice rather than an empty list.
-
-Center it: Pass this component to your FlatList's ListEmptyComponent prop. Crucial React Native tip: To make the empty state center vertically on the screen instead of sitting right at the top, you usually need to add contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center' }} to your FlatList.
