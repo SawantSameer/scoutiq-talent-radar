@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Discover Athletes · ScoutIQ{% endblock %}
+{% block header_title %}Discover Athletes{% endblock %}
+
+{% block content %}
+<form class="search-form" method="get" action="{{ url_for('discover') }}" id="search-form">
+  <input type="hidden" name="sport" value="{{ active_filter }}" />
+  <input
+    class="search-input"
+    type="search"
+    name="q"
+    placeholder="Search athletes..."
+    value="{{ query }}"
+    autocomplete="off"
+    id="search-input"
+  />
+</form>
+
+<div class="filter-row">
+  {% for sport in sports %}
+  <a
+    class="chip {{ 'chip-active' if sport == active_filter else '' }}"
+    href="{{ url_for('discover', sport=sport, q=query) }}"
+  >{{ sport }}</a>
+  {% endfor %}
+</div>
+
+<p class="result-count">{{ athletes|length }} athlete{{ '' if athletes|length == 1 else 's' }} found</p>
+
+{% if athletes|length == 0 %}
+  {% include "_empty_state.html" %}
+{% else %}
+  <div class="card-list">
+    {% for athlete in athletes %}
+      {% include "_athlete_card.html" %}
+    {% endfor %}
+  </div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+  // Progressive-enhancement debounce: mirrors the 300ms setTimeout debounce
+  // in the original DiscoverScreen.tsx (there it delayed a state update;
+  // here it delays the form submission so we don't hit the server on every
+  // keystroke). Falls back to a normal form submit on Enter if JS is off.
+  (function () {
+    var input = document.getElementById("search-input");
+    var form = document.getElementById("search-form");
+    var timer = null;
+    input.addEventListener("input", function () {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(function () {
+        form.submit();
+      }, 300);
+    });
+  })();
+</script>
+{% endblock %}

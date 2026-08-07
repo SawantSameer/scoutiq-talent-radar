@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}My Shortlist · ScoutIQ{% endblock %}
+{% block header_title %}My Shortlist{% endblock %}
+
+{% block content %}
+{% if athletes|length > 0 %}
+  <div class="stats-header">
+    <div class="stat-block">
+      <span class="stat-block-value">{{ athletes|length }}</span>
+      <span class="stat-block-label">Athletes</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-block">
+      <span class="stat-block-value">{{ avg_score }}</span>
+      <span class="stat-block-label">Avg Score</span>
+    </div>
+  </div>
+
+  <div class="card-list">
+    {% for athlete in athletes %}
+      {% set remove_action = url_for('remove_from_shortlist', athlete_id=athlete.id) %}
+      {% include "_athlete_card.html" %}
+    {% endfor %}
+  </div>
+{% else %}
+  {% set empty_icon = "⭐" %}
+  {% set empty_message = "No athletes shortlisted yet. Discover athletes and add them here." %}
+  {% include "_empty_state.html" %}
+{% endif %}
+{% endblock %}

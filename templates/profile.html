@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}{{ athlete.name if athlete else "Not found" }} · ScoutIQ{% endblock %}
+{% block header_title %}Athlete Profile{% endblock %}
+
+{% block content %}
+{% if not athlete %}
+  <div class="centered">
+    <p class="error-text">Athlete not found.</p>
+  </div>
+{% else %}
+  <div class="profile-header">
+    <div class="avatar avatar-lg" style="background-color: {{ sport_color }}22;">
+      <span class="initials initials-lg" style="color: {{ sport_color }};">{{ initials }}</span>
+    </div>
+    <p class="profile-name">{{ athlete.name }}</p>
+    <span class="sport-badge" style="background-color: {{ sport_color }}22; border-color: {{ sport_color }}; color: {{ sport_color }};">{{ athlete.sport }}</span>
+    <p class="profile-meta">{{ athlete.position }} · Age {{ athlete.age }} · {{ athlete.nationality }}</p>
+  </div>
+
+  <div class="section">
+    <p class="section-title">Readiness Score</p>
+    <div class="score-row">
+      <span class="score-number">{{ athlete.score }}</span>
+      <span class="score-max">/100</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" style="width: {{ athlete.score }}%; background-color: {{ score_color }};"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="section-title">Performance Stats</p>
+    {% for entry in stat_entries %}
+    <div class="stat-row">
+      <span class="stat-label">{{ entry.label }}</span>
+      <div class="stat-bar-track">
+        <div class="stat-bar-fill" style="width: {{ entry.value }}%;"></div>
+      </div>
+      <span class="stat-value">{{ entry.value }}</span>
+    </div>
+    {% endfor %}
+  </div>
+
+  <form method="post" action="{{ url_for('toggle_shortlist', athlete_id=athlete.id) }}">
+    <button type="submit" class="shortlist-btn {{ 'shortlist-btn-active' if shortlisted else '' }}">
+      {{ '★  Remove from Shortlist' if shortlisted else '☆  Add to Shortlist' }}
+    </button>
+  </form>
+{% endif %}
+{% endblock %}

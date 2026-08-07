@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}ScoutIQ{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-header">
+      <h1>{% block header_title %}ScoutIQ{% endblock %}</h1>
+    </header>
+
+    <main class="app-content">
+      {% block content %}{% endblock %}
+    </main>
+
+    <nav class="tab-bar">
+      <a href="{{ url_for('discover') }}" class="tab-item {{ 'active' if request.path == url_for('discover') else '' }}">
+        <span class="tab-icon">🔍</span>
+        <span class="tab-label">Discover</span>
+      </a>
+      <a href="{{ url_for('shortlist') }}" class="tab-item {{ 'active' if request.path == url_for('shortlist') else '' }}">
+        <span class="tab-icon">⭐</span>
+        <span class="tab-label">Shortlist</span>
+        {% if shortlist_count > 0 %}<span class="tab-badge">{{ shortlist_count }}</span>{% endif %}
+      </a>
+    </nav>
+  </div>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>

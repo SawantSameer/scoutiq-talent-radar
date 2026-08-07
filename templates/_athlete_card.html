@@ -1,0 +1,25 @@
+{# Expects `athlete` in context (a dict from to_card()); optional `remove_action` #}
+<div class="card">
+  <a class="card-link" href="{{ url_for('profile', athlete_id=athlete.id) }}">
+    <div class="avatar" style="background-color: {{ athlete.sport_color }}33;">
+      <span class="initials" style="color: {{ athlete.sport_color }};">{{ athlete.initials }}</span>
+    </div>
+    <div class="card-info">
+      <p class="card-name">{{ athlete.name }}</p>
+      <div class="card-meta-row">
+        <span class="sport-badge" style="background-color: {{ athlete.sport_color }}22; border-color: {{ athlete.sport_color }}; color: {{ athlete.sport_color }};">{{ athlete.sport }}</span>
+        <span class="card-meta">{{ athlete.position }} · {{ athlete.age }}y</span>
+      </div>
+    </div>
+  </a>
+  <div class="card-right">
+    {% if remove_action %}
+    <form method="post" action="{{ remove_action }}" class="remove-form">
+      <button type="submit" class="remove-btn" aria-label="Remove from shortlist">✕</button>
+    </form>
+    {% endif %}
+    <div class="score-badge" style="border-color: {{ athlete.score_color }};">
+      <span class="score" style="color: {{ athlete.score_color }};">{{ athlete.score }}</span>
+    </div>
+  </div>
+</div>

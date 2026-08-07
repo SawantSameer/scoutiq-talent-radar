@@ -1,0 +1,10 @@
+{# Expects optional `empty_message`, `empty_hint`, `empty_icon` in context #}
+<div class="empty-wrapper">
+  <div class="empty-card">
+    <div class="empty-icon-circle">
+      <span class="empty-icon">{{ empty_icon or "🔍" }}</span>
+    </div>
+    <p class="empty-message">{{ empty_message }}</p>
+    {% if empty_hint %}<p class="empty-hint">{{ empty_hint }}</p>{% endif %}
+  </div>
+</div>
